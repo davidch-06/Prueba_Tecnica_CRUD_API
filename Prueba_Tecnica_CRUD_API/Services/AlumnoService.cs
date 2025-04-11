@@ -106,5 +106,22 @@ namespace Prueba_Tecnica_CRUD_API.Services
             _context.Alumnos.Update(alumno);
             await _context.SaveChangesAsync();
         }
+
+        // Método para obtener alumnos por curso usando un procedimiento almacenado
+        public async Task<List<AlumnoCursoProfesorDTO>> ObtenerAlumnosPorCursoAsync(int cursoId)
+        {
+            return await _context.Set<AlumnoCursoProfesorDTO>()
+                .FromSqlRaw("EXEC ObtenerAlumnosPorCurso @p0", cursoId) // Ejecutar el procedimiento almacenado
+                .AsNoTracking() // Evitar el seguimiento de cambios para mejorar el rendimiento
+                .ToListAsync(); // Ejecutar la consulta y obtener la lista de resultados
+        }
+
+        // Método para obtener cursos y alumnos por profesor usando un procedimiento almacenado
+        public async Task<List<CursoAlumnosDTO>> ObtenerCursosYAlumnosPorProfesorAsync(int profesorId)
+        {
+            return await _context.Set<CursoAlumnosDTO>()
+                .FromSqlRaw("EXEC ObtenerCursosYAlumnosPorProfesor @p0", profesorId)
+                .ToListAsync();
+        }
     }
 }

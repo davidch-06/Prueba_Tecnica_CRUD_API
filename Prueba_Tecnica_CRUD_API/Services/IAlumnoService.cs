@@ -11,5 +11,8 @@ namespace Prueba_Tecnica_CRUD_API.Services
         Task UpdateAsync(AlumnoDTO alumnoCreateDTO);
         Task DeleteAsync(int id);
 
+        Task<List<AlumnoCursoProfesorDTO>> ObtenerAlumnosPorCursoAsync(int cursoId);
+        Task<List<CursoAlumnosDTO>> ObtenerCursosYAlumnosPorProfesorAsync(int profesorId);
+
     }
 }
