@@ -1,4 +1,12 @@
+using Microsoft.EntityFrameworkCore;
+using Prueba_Tecnica_CRUD_API.Data;
+
 var builder = WebApplication.CreateBuilder(args);
+
+//Agrega la instacia de la base de datos
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 
 // Add services to the container.
 
