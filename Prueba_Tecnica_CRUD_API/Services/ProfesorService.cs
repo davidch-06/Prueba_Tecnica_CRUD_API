@@ -42,17 +42,13 @@ namespace Prueba_Tecnica_CRUD_API.Services
 
         public async Task DeleteAsync(int id)
         {
-            var profesor = _context.Profesores.Find(id);
+            // Eliminar un alumno por ID con SP
+            var filasAfectadas = await _context.Database.ExecuteSqlRawAsync("EXEC EliminarProfesor @p0", id);
 
-            if (profesor == null)
+            if (filasAfectadas == 0)
             {
-                throw new Exception("Profesor no encontrado");
+                throw new Exception("Profesor no encontrado o ya eliminado");
             }
-
-            // Eliminar el profesor encontrado
-            _context.Profesores.Remove(profesor);
-            // Guardar los cambios en la base de datos
-            await _context.SaveChangesAsync();
         }
 
         public async Task<List<ProfesorDTO>> GetAllAsync()
