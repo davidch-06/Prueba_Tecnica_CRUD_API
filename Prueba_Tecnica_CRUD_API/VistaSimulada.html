@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Listado de Alumnos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1 class="text-center mb-4">Listado de Alumnos</h1>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Identificación</th>
+                    <th>Fecha Nacimiento</th>
+                </tr>
+            </thead>
+            <tbody id="listado">
+                <!-- Contenido del listado-->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        async function obtenerDatos() {
+            try {
+                const response = await fetch('https://localhost:7262/api/v1/Alumno');
+                if (response.ok) {
+                    const data = await response.json();
+                    mostrarDatos(data);
+                } else {
+                    console.error('Error en la solicitud:', response.status);
+                }
+            } catch (error) {
+                console.error('Error en la solicitud Fetch:', error);
+            }
+        }
+
+        function mostrarDatos(data) {
+            const listado = document.getElementById('listado');
+            listado.innerHTML = '';
+
+            data.forEach(item => {
+                const tr = document.createElement('tr');
+
+                const tdNombre = document.createElement('td');
+                tdNombre.textContent = item.nombre;
+
+                const tdApellido = document.createElement('td');
+                tdApellido.textContent = item.apellido;
+
+                const tdIdentificacion = document.createElement('td');
+                tdIdentificacion.textContent = item.numeroIdentificacion;
+
+                const tdFecha = document.createElement('td');
+                tdFecha.textContent = item.fechaNacimiento;
+
+                tr.appendChild(tdNombre);
+                tr.appendChild(tdApellido);
+                tr.appendChild(tdIdentificacion);
+                tr.appendChild(tdFecha);
+
+                listado.appendChild(tr);
+            });
+        }
+
+        window.onload = obtenerDatos;
+    </script>
+</body>
+</html>
